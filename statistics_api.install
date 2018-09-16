@@ -1,0 +1,64 @@
+<?php
+
+/**
+ * @file
+ * Install and update functions for the Statistics API module.
+ */
+
+use Drupal\Core\Entity\EntityTypeInterface;
+
+/**
+ * Implements hook_schema().
+ */
+function statistics_api_schema() {
+  // @I Allow NULL values for all identifiers apart from `name`
+  //
+  // priority: high
+  // notes:    NULL values for identifiers will allow more flexibility in
+  //           entries that are not specific to an entity.
+  $schema['statistics_api'] = [
+    'description' => 'Statistical numeric entries for entities tracked by the statistics_api module.',
+    'fields' => [
+      'entity_type' => [
+        'description' => 'The type of the entity that the entry belongs to.',
+        'type' => 'varchar_ascii',
+        'length' => EntityTypeInterface::ID_MAX_LENGTH,
+        'not null' => TRUE,
+      ],
+      'entity_id' => [
+        'description' => 'The ID of the entity that the entry belongs to.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'user_id' => [
+        'description' => 'The ID of the user that the entry belongs to.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'name' => [
+        'description' => 'The machine name of the entry',
+        'type' => 'varchar_ascii',
+        'length' => 32,
+        'not null' => TRUE,
+      ],
+      'value' => [
+        'description' => 'The value of the entry',
+        'type' => 'numeric',
+        'precision' => 19,
+        'scale' => 6,
+        'not null' => TRUE,
+      ],
+      'changed' => [
+        'description' => 'The unix timestamp that the entry was last updated.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['entity_type', 'entity_id', 'user_id', 'name'],
+  ];
+
+  return $schema;
+}

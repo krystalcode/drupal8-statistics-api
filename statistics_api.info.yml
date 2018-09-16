@@ -1,0 +1,5 @@
+name: Statistics API
+type: module
+description: 'Provides an API for statistics.'
+package: Contrib
+core: 8.x
