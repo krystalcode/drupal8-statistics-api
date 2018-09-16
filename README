@@ -1,0 +1,53 @@
+Statistics API
+==============
+
+Description
+-----------
+
+The Statistics API module allows applications or other contrib modules to track
+numerical entries, either globally or related to a specific entity or entity
+type. Examples are:
+
+* How many times a specific content item has been viewed in general.
+* How many times a specific page has been viewed by a specific user.
+* How many times a specific user has logged in.
+* How many times a specific file has been downloaded by anyone on the site.
+* How many orders have been placed by a user.
+
+Usage
+-----
+
+The Statistics API module does not provide any features by itself. It needs to
+be utilized by another module to implement meaningful functionality.
+
+Examples:
+
+```
+// Set to 12 the number of orders belonging to user 1.
+$statistics_storage->insertOrUpdate(
+  'nb_entities',
+  12,
+  'commerce_order',
+  0,
+  1
+);
+```
+
+```
+// Increment the number of views the content item with ID 1has received.
+$statistics_storage->increment('nb_views', 'node', 1);
+```
+
+```
+// Fetch the number of views the content item with ID 1 has received.
+$statistics_storage->fetchValue('nb_views', 'node', 1);
+```
+
+```
+// Fetch the number of times the inviation with ID 1 was sent and viewed.
+$statistics_storage->fetchMultipleValues(
+  ['nb_sent', 'nb_viewed'],
+  'invitation',
+  1
+);
+```
